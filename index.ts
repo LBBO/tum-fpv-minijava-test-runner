@@ -35,7 +35,6 @@ const runTest = async (
 const killProcessAfterTimeout = (process: Deno.Process, duration: number) => {
   setTimeout(() => {
     process.stdin?.close();
-    process.kill("SIGKILL");
   }, duration);
 };
 
