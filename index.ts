@@ -18,7 +18,7 @@ const runTest = async (
   for (const value of test.input) {
     await writeValueToProgram(value);
   }
-  await writeValueToProgram("\n");
+  await writeValueToProgram("");
 
   // Wait until all outputs have been read
   const outputs = await outputsPromise;
