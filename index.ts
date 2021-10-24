@@ -3,8 +3,6 @@ import { readLines } from "https://deno.land/std@0.104.0/io/mod.ts";
 import { writeAll } from "https://deno.land/std@0.104.0/io/util.ts";
 const encoder = new TextEncoder();
 
-const __dirname = new URL(".", import.meta.url).pathname;
-
 export type Test = {
   name: string;
   input: number[];
@@ -41,7 +39,7 @@ const killProcessAfterTimeout = (process: Deno.Process, duration: number) => {
   }, duration);
 };
 
-const startMinijavaProcess = () => {
+const startMinijavaProcess = (__dirname: string) => {
   const minijavaProcess = Deno.run({
     cmd:
       `docker run --rm -i -v ${__dirname}/assignment.minijava:/minijava/assignment.minijava ghcr.io/bottbenj/fpv:minijava`
@@ -61,8 +59,8 @@ const startMinijavaProcess = () => {
   return { minijavaProcess, writeValueToProgram };
 };
 
-export const runTests = async (tests: Array<Test>) => {
-  const { minijavaProcess, writeValueToProgram } = startMinijavaProcess();
+export const runTests = async (tests: Array<Test>, __dirname: string) => {
+  const { minijavaProcess, writeValueToProgram } = startMinijavaProcess(__dirname);
 
   // Save all lines of output until the next "Please enter your inputs" line comes.
   // Those outputs are then passed to the already running test by resolving a promise.
